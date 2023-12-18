@@ -14,10 +14,10 @@ app.use(upload.single('attr'));
 app.use(express.json())
 app.use(bodyParser.json());
 app.use(cors({
-    origin: 'https://mern-market-place.vercel.app/'
+    origin: process.env.CLIENT_ORIGIN || 'http://localhost:3000'
 }));
 
-mongoose.connect('mongodb+srv://flazyflad:i9sAD06Fh7U7SS2Y@mern-marketplace.8cvzhr0.mongodb.net/?retryWrites=true&w=majority')
+mongoose.connect(process.env.MONGODB_URI)
 const db = mongoose.connection
 db.on('error', (error) => console.error(error))
 db.once('open', () => console.log('Connected to Database'))
