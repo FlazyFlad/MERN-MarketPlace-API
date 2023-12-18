@@ -14,14 +14,7 @@ app.use(upload.single('attr'));
 app.use(express.json())
 app.use(bodyParser.json());
 
-const allowedOrigins = ['http://127.0.0.1:3000', process.env.CLIENT_ORIGIN, 'https://mern-market-place.vercel.app'];
-
-const corsOptions = {
-    origin: allowedOrigins,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  };
-  
-app.use(cors(corsOptions));
+app.use(cors());
 
 mongoose.connect(process.env.MONGODB_URI)
 const db = mongoose.connection
