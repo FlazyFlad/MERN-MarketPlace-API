@@ -13,9 +13,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(upload.single('attr'));
 app.use(express.json())
 app.use(bodyParser.json());
-app.use(cors({
-    origin: process.env.CLIENT_ORIGIN || 'http://localhost:3000'
-}));
+
+const allowedOrigins = ['http://127.0.0.1:3000', process.env.CLIENT_ORIGIN, 'https://mern-market-place.vercel.app'];
+
+const corsOptions = {
+    origin: allowedOrigins,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  };
+  
+app.use(cors(corsOptions));
 
 mongoose.connect(process.env.MONGODB_URI)
 const db = mongoose.connection
@@ -39,6 +45,7 @@ app.use('/cart', cartRouter);
 const PORT = 3001;
 app.listen(PORT, () => {
     console.log(`Сервер запущен на порту ${PORT}`);
+    console.log()
 });
 
 module.exports = mongoose;
