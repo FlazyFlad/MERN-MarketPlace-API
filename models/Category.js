@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 
 const categorySchema = new mongoose.Schema({
-  Name: { type: String, required: true },
-  // Additional category-related fields
+  Name: {
+    type: String,
+    required: true,
+  },
 });
 
 const Category = mongoose.model('Category', categorySchema);

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const ShoppingCart = require('../models/ShoppingCart');
+const ShoppingCart = require('../models/shoppingCart');
 
 router.get('/user/:userId', async (req, res) => {
   try {
