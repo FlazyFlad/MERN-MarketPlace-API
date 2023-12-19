@@ -21,8 +21,6 @@ router.post('/add', async (req, res) => {
   try {
     const { UserID, ProductID, Quantity } = req.body;
 
-    console.log('111', req.body)
-
     const existingItem = await ShoppingCart.findOne({ UserID, ProductID });
 
     if (existingItem) {
@@ -44,11 +42,35 @@ router.post('/add', async (req, res) => {
   }
 });
 
-router.delete('/remove/:itemId', async (req, res) => {
+router.post('/change-quantity', async (req, res) => {
   try {
-    const itemId = req.params.itemId;
+    const { UserID, ProductID, NewQuantity } = req.body;
 
-    await ShoppingCart.findByIdAndRemove(itemId);
+    const existingItem = await ShoppingCart.findOne({ UserID, ProductID });
+
+    if (!existingItem) {
+      return res.status(400).json({ message: 'Product not found in the cart' });
+    }
+
+    existingItem.Quantity = NewQuantity;
+    await existingItem.save();
+
+    res.json({ message: 'Quantity changed successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+router.post('/remove-item', async (req, res) => {
+  try {
+    const { UserID, ProductID } = req.body;
+
+    const existingItem = await ShoppingCart.findOneAndDelete({ UserID, ProductID });
+
+    if (!existingItem) {
+      return res.status(400).json({ message: 'Product not found in the cart' });
+    }
 
     res.json({ message: 'Item removed from the shopping cart' });
   } catch (error) {
@@ -56,5 +78,19 @@ router.delete('/remove/:itemId', async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
+
+router.post('/clear-cart', async (req, res) => {
+  try {
+    const { UserID } = req.body;
+
+    await ShoppingCart.deleteMany({ UserID });
+
+    res.json({ message: 'Shopping cart cleared successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
 
 module.exports = router;

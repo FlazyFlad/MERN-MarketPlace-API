@@ -14,7 +14,10 @@ app.use(upload.single('attr'));
 app.use(express.json())
 app.use(bodyParser.json());
 
-app.use(cors());
+app.use(cors({
+    // origin: 'http://localhost:3000'
+    origin: process.env.CLIENT_ORIGIN
+}));
 
 mongoose.connect(process.env.MONGODB_URI)
 const db = mongoose.connection
@@ -31,6 +34,8 @@ const productRouter = require('./routes/productRoutes');
 app.use('/product', productRouter);
 const categoryRouter = require('./routes/categoryRoutes');
 app.use('/cat', categoryRouter);
+const modelRouter = require('./routes/ModelRoutes');
+app.use('/model', modelRouter);
 const cartRouter = require('./routes/shoppingCartRoutes');
 app.use('/cart', cartRouter);
 

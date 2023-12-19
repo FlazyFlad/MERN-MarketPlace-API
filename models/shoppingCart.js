@@ -3,18 +3,18 @@ const mongoose = require('mongoose');
 const shoppingCartSchema = new mongoose.Schema({
   UserID: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Reference to the User model
+    ref: 'User',
     required: true,
   },
   ProductID: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Product', // Reference to the Product model
+    ref: 'Product',
     required: true,
   },
   Quantity: {
     type: Number,
     required: true,
-    min: 1, // Assuming the quantity should be at least 1
+    min: 1,
   },
 });
 

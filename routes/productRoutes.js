@@ -9,7 +9,7 @@ const upload = multer({ storage: storage });
 // Get all products
 router.get('/products', async (req, res) => {
     try {
-        const products = await Product.find().populate('CategoryID');
+        const products = await Product.find().populate('CategoryID ModelID');
         res.json(products);
     } catch (error) {
         console.error(error);
@@ -20,7 +20,7 @@ router.get('/products', async (req, res) => {
 // Get a single product by ID
 router.get('/products/:productId', async (req, res) => {
     try {
-        const product = await Product.findById(req.params.productId).populate('CategoryID');
+        const product = await Product.findById(req.params.productId).populate('CategoryID ModelID');
         if (!product) {
             return res.status(404).json({ message: 'Product not found' });
         }
@@ -36,7 +36,7 @@ router.get('/products/:productId', async (req, res) => {
 
 // Create a new product with an imageURL
 router.post('/products', async (req, res) => {
-    const { Name, CategoryID, Description, Price, StockQuantity, ImageURL } = req.body;
+    const { Name, CategoryID, Description, Price, StockQuantity, ImageURL, ModelID } = req.body;
 
     try {
         const newProduct = new Product({
@@ -45,7 +45,8 @@ router.post('/products', async (req, res) => {
             Description,
             Price,
             StockQuantity,
-            ImageURL, // Update the field name to imageURL
+            ImageURL,
+            ModelID,
         });
 
         await newProduct.save();
@@ -58,7 +59,7 @@ router.post('/products', async (req, res) => {
 
 // Update a product by ID with an imageURL
 router.put('/products/:productId', async (req, res) => {
-    const { Name, CategoryID, Description, Price, StockQuantity, ImageURL } = req.body;
+    const { Name, CategoryID, Description, Price, StockQuantity, ImageURL, ModelID } = req.body;
 
     try {
         const updatedProduct = await Product.findByIdAndUpdate(
@@ -69,7 +70,8 @@ router.put('/products/:productId', async (req, res) => {
                 Description,
                 Price,
                 StockQuantity,
-                ImageURL, // Update the field name to imageURL
+                ImageURL,
+                ModelID,
             },
             { new: true }
         );
@@ -84,7 +86,6 @@ router.put('/products/:productId', async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 });
-
 
 // Delete a product by ID
 router.delete('/products/:productId', async (req, res) => {
