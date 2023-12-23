@@ -15,8 +15,8 @@ app.use(express.json())
 app.use(bodyParser.json());
 
 app.use(cors({
-    // origin: 'http://localhost:3000'
-    origin: process.env.CLIENT_ORIGIN
+    origin: 'http://localhost:3000'
+    // origin: process.env.CLIENT_ORIGIN
 }));
 
 mongoose.connect(process.env.MONGODB_URI)
@@ -38,7 +38,8 @@ const modelRouter = require('./routes/ModelRoutes');
 app.use('/model', modelRouter);
 const cartRouter = require('./routes/shoppingCartRoutes');
 app.use('/cart', cartRouter);
-
+const favoriteRoutes = require('./routes/favoriteRoutes');
+app.use('/favorite', favoriteRoutes);
 
 const PORT = 3001;
 app.listen(PORT, () => {
