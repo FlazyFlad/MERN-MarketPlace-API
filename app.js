@@ -48,6 +48,8 @@ app.use('/cart', cartRouter);
 const favoriteRoutes = require('./routes/favoriteRoutes');
 app.use('/favorite', favoriteRoutes);
 
+
+
 const PORT = 3001;
 app.listen(PORT, () => {
     console.log(`Сервер запущен на порту ${PORT}`);
