@@ -5,6 +5,13 @@ const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const multer = require('multer');
+const path = require('path');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load(path.resolve(__dirname, 'swagger.yaml'));
+
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -15,8 +22,8 @@ app.use(express.json())
 app.use(bodyParser.json());
 
 app.use(cors({
-    // origin: 'http://localhost:3000'
-    origin: process.env.CLIENT_ORIGIN
+    origin: 'http://localhost:3000'
+    // origin: process.env.CLIENT_ORIGIN
 }));
 
 mongoose.connect(process.env.MONGODB_URI)

@@ -1,0 +1,655 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Product API
+  description: API for managing products
+
+basePath: /product
+
+paths:
+  /products:
+    get:
+      summary: Get all products
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Product'
+
+    post:
+      summary: Create a new product
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Product'
+      responses:
+        201:
+          description: Product created successfully
+          schema:
+            $ref: '#/definitions/Product'
+        400:
+          description: Bad request
+
+  /products/{productId}:
+    get:
+      summary: Get a single product by ID
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Product'
+        404:
+          description: Product not found
+
+    put:
+      summary: Update a product by ID
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Product'
+      responses:
+        200:
+          description: Product updated successfully
+          schema:
+            $ref: '#/definitions/Product'
+        404:
+          description: Product not found
+        400:
+          description: Bad request
+
+    delete:
+      summary: Delete a product by ID
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: Product deleted successfully
+        404:
+          description: Product not found
+            /cat/categories:
+    get:
+      summary: Get all categories
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Category'
+
+    post:
+      summary: Create a new category
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Category'
+      responses:
+        201:
+          description: Category created successfully
+          schema:
+            $ref: '#/definitions/Category'
+        400:
+          description: Bad request
+
+  /cat/categories/{categoryId}:
+    get:
+      summary: Get a single category by ID
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Category'
+        404:
+          description: Category not found
+
+    put:
+      summary: Update a category by ID
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Category'
+      responses:
+        200:
+          description: Category updated successfully
+          schema:
+            $ref: '#/definitions/Category'
+        404:
+          description: Category not found
+        400:
+          description: Bad request
+
+    delete:
+      summary: Delete a category by ID
+      parameters:
+        - name: categoryId
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: Category deleted successfully
+        404:
+          description: Category not found
+
+  /model/models:
+    get:
+      summary: Get all models
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Model'
+
+    post:
+      summary: Create a new model
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Model'
+      responses:
+        201:
+          description: Model created successfully
+          schema:
+            $ref: '#/definitions/Model'
+        400:
+          description: Bad request
+
+  /model/models/{modelId}:
+    get:
+      summary: Get a single model by ID
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Model'
+        404:
+          description: Model not found
+
+    put:
+      summary: Update a model by ID
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Model'
+      responses:
+        200:
+          description: Model updated successfully
+          schema:
+            $ref: '#/definitions/Model'
+        404:
+          description: Model not found
+        400:
+          description: Bad request
+
+    delete:
+      summary: Delete a model by ID
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: Model deleted successfully
+        404:
+          description: Model not found
+  /auth/register:
+    post:
+      summary: Register a new user
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UserRegistration'
+      responses:
+        201:
+          description: User registered successfully
+        400:
+          description: Bad request
+        500:
+          description: Internal Server Error
+
+  /auth/login:
+    post:
+      summary: Login and obtain an authentication token
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UserLogin'
+      responses:
+        200:
+          description: Login successful
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server Error
+
+  /auth/profile:
+    get:
+      summary: Access user profile (requires authentication)
+      responses:
+        200:
+          description: Profile accessed successfully
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server Error
+
+  /auth/user-info:
+    get:
+      summary: Retrieve user information (requires authentication)
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/UserInfoResponse'
+        401:
+          description: Unauthorized
+        404:
+          description: User not found
+        500:
+          description: Internal Server Error
+
+  /cart/user/{userId}:
+    get:
+      summary: Get shopping cart items for a user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ShoppingCartItem'
+        500:
+          description: Internal Server Error
+
+    post:
+      summary: Add a product to the shopping cart
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/AddToCartRequest'
+      responses:
+        200:
+          description: Item added to the shopping cart
+        400:
+          description: Bad request
+        500:
+          description: Internal Server Error
+
+  /cart/change-quantity:
+    post:
+      summary: Change the quantity of a product in the shopping cart
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ChangeQuantityRequest'
+      responses:
+        200:
+          description: Quantity changed successfully
+        400:
+          description: Bad request
+        500:
+          description: Internal Server Error
+
+  /cart/remove-item:
+    post:
+      summary: Remove a product from the shopping cart
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/RemoveItemRequest'
+      responses:
+        200:
+          description: Item removed from the shopping cart
+        400:
+          description: Bad request
+        500:
+          description: Internal Server Error
+
+  /cart/clear-cart:
+    post:
+      summary: Clear the entire shopping cart for a user
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ClearCartRequest'
+      responses:
+        200:
+          description: Shopping cart cleared successfully
+        400:
+          description: Bad request
+        500:
+          description: Internal Server Error
+  /favorite/user/{userId}:
+    get:
+      summary: Get favorite items for a user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/FavoriteItem'
+        500:
+          description: Internal Server Error
+
+    post:
+      summary: Add a product to favorites
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/AddToFavoritesRequest'
+      responses:
+        200:
+          description: Item added to favorites
+        400:
+          description: Bad request
+        500:
+          description: Internal Server Error
+
+  /favorite/remove-item:
+    post:
+      summary: Remove a product from favorites
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/RemoveFavoriteItemRequest'
+      responses:
+        200:
+          description: Item removed from favorites
+        400:
+          description: Bad request
+        500:
+          description: Internal Server Error
+
+  /favorite/clear-favorites:
+    post:
+      summary: Clear all favorite items for a user
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ClearFavoritesRequest'
+      responses:
+        200:
+          description: Favorites cleared successfully
+        400:
+          description: Bad request
+        500:
+          description: Internal Server Error
+
+definitions:
+  Product:
+    type: object
+    properties:
+      _id:
+        type: string
+        description: The product ID
+      Name:
+        type: string
+        description: The name of the product
+      CategoryID:
+        type: object
+        description: The category ID
+      Description:
+        type: string
+        description: The product description
+      Price:
+        type: number
+        description: The product price
+      StockQuantity:
+        type: integer
+        description: The stock quantity of the product
+      ImageURL:
+        type: string
+        description: The URL of the product image
+      ModelID:
+        type: object
+        description: The model ID of the product
+
+  Category:
+    type: object
+    properties:
+      _id:
+        type: string
+        description: The category ID
+      Name:
+        type: string
+        description: The name of the category
+
+  Model:
+    type: object
+    properties:
+      _id:
+        type: string
+        description: The model ID
+      Name:
+        type: string
+        description: The name of the model
+      Brand:
+        type: string
+        description: The brand of the model
+      Description:
+        type: string
+        description: The description of the model
+
+  UserRegistration:
+    type: object
+    properties:
+      Username:
+        type: string
+      Password:
+        type: string
+      Repassword:
+        type: string
+      Email:
+        type: string
+
+  UserLogin:
+    type: object
+    properties:
+      Email:
+        type: string
+      Password:
+        type: string
+
+  UserInfoResponse:
+    type: object
+    properties:
+      user:
+        $ref: '#/definitions/User'
+      message:
+        type: string
+
+  User:
+    type: object
+    properties:
+      _id:
+        type: string
+        description: The user ID
+      Username:
+        type: string
+        description: The username of the user
+      PasswordHash:
+        type: string
+        description: The hashed password of the user
+      Email:
+        type: string
+        description: The email address of the user
+
+  ShoppingCartItem:
+    type: object
+    properties:
+      _id:
+        type: string
+        description: The shopping cart item ID
+      UserID:
+        type: string
+        description: The user ID
+      ProductID:
+        type: object
+        description: The product ID
+      Quantity:
+        type: integer
+        description: The quantity of the product in the cart
+
+  AddToCartRequest:
+    type: object
+    properties:
+      UserID:
+        type: string
+        description: The user ID
+      ProductID:
+        type: string
+        description: The product ID
+      Quantity:
+        type: integer
+        description: The quantity of the product to add to the cart
+
+  ChangeQuantityRequest:
+    type: object
+    properties:
+      UserID:
+        type: string
+        description: The user ID
+      ProductID:
+        type: string
+        description: The product ID
+      NewQuantity:
+        type: integer
+        description: The new quantity of the product in the cart
+
+  RemoveItemRequest:
+    type: object
+    properties:
+      UserID:
+        type: string
+        description: The user ID
+      ProductID:
+        type: string
+        description: The product ID
+
+  ClearCartRequest:
+    type: object
+    properties:
+      UserID:
+        type: string
+        description: The user ID
+
+  FavoriteItem:
+    type: object
+    properties:
+      _id:
+        type: string
+        description: The favorite item ID
+      UserID:
+        type: string
+        description: The user ID
+      ProductID:
+        type: object
+        description: The product ID
+
+  AddToFavoritesRequest:
+    type: object
+    properties:
+      UserID:
+        type: string
+        description: The user ID
+      ProductID:
+        type: string
+        description: The product ID
+
+  RemoveFavoriteItemRequest:
+    type: object
+    properties:
+      UserID:
+        type: string
+        description: The user ID
+      ProductID:
+        type: string
+        description: The product ID
+
+  ClearFavoritesRequest:
+    type: object
+    properties:
+      UserID:
+        type: string
+        description: The user ID
